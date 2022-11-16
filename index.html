@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en" data-wf-page="63611854869623d1453c94a2">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/plc-songtools.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./css/playlisterclub.css">
+    <style>
+        .st-slide-nav .w-slider-dot {
+            width: 86px;
+            height: 66px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #242424;
+            --round-corner: 16px;
+        }
+
+        .st-slide-nav .w-slider-dot .w-active,
+        .st-slide-nav .w-slider-dot:hover {
+            background: #242424;
+        }
+    </style>
+    <style>
+        .st-slide-nav {
+            left: -12px;
+        }
+
+        .progressx,
+        .st-slide-nav .w-slider-dot,
+        .st-slide-nav .w-slider-dot.w-active {
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .w-slider-dot.progressx:nth-child(1) {
+            background-image: url(img/playlister-club/songfly-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .w-slider-dot.progressx:first-child {
+            background-image: url(img/playlister-club/songfly-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .w-slider-dot:first-child {
+            background-image: url(img/playlister-club/songfly-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:first-child.w-active {
+            background-image: url(img/playlister-club/songfly-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(1).w-active {
+            background-image: url(img/playlister-club/songfly-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(2) {
+            background-image: url(img/playlister-club/songblog-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(2).w-active {
+            background-image: url(img/playlister-club/songblog-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(3) {
+            background-image: url(img/playlister-club/songpage-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(3).w-active {
+            background-image: url(img/playlister-club/songpage-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(4) {
+            background-image: url(img/playlister-club/songfolder-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(4).w-active {
+            background-image: url(img/playlister-club/songfolder-active-icon.svg);
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(5) {
+            background-image: url(img/playlister-club/pulse-inactive-icon.svg);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: 50%;
+        }
+
+        .st-slide-nav .w-slider-dot:nth-child(5).w-active {
+            background-image: url(img/playlister-club/pulse-active-icon.svg);
+        }
+
+        @media screen and (max-width:600px) {
+            .st-slide-nav .w-slider-dot {
+                width: 66px;
+                height: 50px;
+                border-radius: 9px;
+                --round-corner: 9px;
+            }
+        }
+    </style>
+    <style>
+        .progressx svg {
+            display: none;
+        }
+
+        .progressx.w-active svg {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        rect {
+            width: -webkit-calc(100% - 4px);
+            width: -moz-calc(100% - 4px);
+            width: calc(100% - 4px);
+            height: -webkit-calc(100% - 4px);
+            height: -moz-calc(100% - 4px);
+            height: calc(100% - 4px);
+            stroke: #00CCBC;
+            stroke-dasharray: var(--dashlength), var(--dashlength);
+            stroke-width: 2;
+            fill: none;
+            rx: var(--round-corner);
+        }
+
+        .progressx.w-active rect {
+            animation: dash 6s linear forwards;
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: var(--dashlength);
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            setTimeout(() => {
+                let sliderDots = document.getElementsByClassName('w-slider-dot')
+
+                for (const dot of sliderDots) {
+                    dot.classList.add("progressx")
+                    dot.insertAdjacentHTML('afterbegin',
+                        `<svg preserveAspectRatio="xMaxYMax meet" viewBox="0 0 86 66" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="2" rx="16"/>
+                 </svg>`
+                    )
+                    var progress = document.querySelector('.progressx.w-active rect')
+                    dot.style.setProperty('--dashlength', progress.getTotalLength())
+                }
+            }, 100)
+        }
+    </script>
+    <style>
+        a {
+            background-color: transparent;
+        }
+
+
+
+        .section-content {
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 3;
+        }
+
+        .brand {
+            text-indent: -99999px;
+            background-repeat: no-repeat;
+            background-position: 0;
+            background-size: contain;
+            background-image: url(https://playlister.club/assets/img/logo.svg);
+            height: 42px;
+            min-width: 200px;
+        }
+
+        .header .brand,
+        .header .main {
+            width: auto;
+        }
+
+        button {
+            padding: .75rem 1.5rem;
+            margin: 2rem .5rem;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            background: transparent;
+            border: 2px solid #4b4b4b;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .header .navbar-toggler {
+            /* margin: 1.25rem 0; */
+            margin: 2rem 0.5rem;
+        }
+
+        .header .navbar-nav .nav-item {
+            white-space: nowrap;
+            /* height: 80px; */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+            place-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            border: 4px solid transparent;
+            border-top-width: 1px;
+            font-weight: 500;
+            border-bottom-width: 1px;
+            -webkit-transition: all .2s ease-in;
+            transition: all .2s ease-in;
+        }
+
+        .header .nav-link {
+            display: -webkit-box !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+        }
+
+        .header .navbar-nav .nav-item:hover {
+            border: 4px solid transparent;
+            border-bottom-color: #2ec4b6;
+            background: transparent;
+        }
+
+        .header .nav-item a {
+            color: #f5f5f4 !important;
+            text-decoration: none;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-toggle {
+            color: #f5f5f4 !important;
+            text-decoration: none;
+            padding: 0 !important;
+            font-weight: 500;
+            background: none !important;
+            border: 0;
+            /* margin: 0 !important; */
+            margin-right: 0.3rem !important;
+            margin-left: 0.325rem !important;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-toggle:after {
+            /* margin-left: .5em; */
+            /* vertical-align: .15em; */
+            display: inline-block;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+            margin-left: 0.5em;
+            vertical-align: 0.15em;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-menu {
+            /* background: #181818 !important; */
+            padding: .1rem;
+        }
+
+        .header .navbar-nav .nav-item .dropdown-menu .dropdown-item {
+            padding: .72rem 1rem !important;
+            font-size: .9rem;
+            color: #eaeaea;
+            line-height: 17px !important;
+        }
+
+        @media screen and (min-width: 960px) {
+            .section-content {
+                max-width: 900px;
+                padding: 1rem;
+            }
+        }
+
+        @media screen and (min-width: 1600px) {
+            .section-content {
+                max-width: 1800px;
+                padding: 1rem 3rem;
+            }
+        }
+
+        @media screen and (max-width: 640px) {
+            /* #navbars {
+                position: fixed;
+                inset: 104px 0 0;
+                background: linear-gradient(180deg, #323232, #181818);
+                background-color: #181818 !important;
+            } */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui-plc-navbar-holder">
+        <div class="html-embed w-embed">
+            <div class="header px-3">
+                <div class="section-content p-0 mt-80">
+                    <nav class="navbar navbar-expand-md navbar-dark py-0" aria-label="">
+                        <div class="container-fluid p-sm-0">
+                            <a href="index.html" class="navbar-brand brand">Playlister.club</a>
+                            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbars" aria-controls="navbarsExample04" aria-expanded="false"
+                                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                            <div class="collapse navbar-collapse" id="navbars">
+                                <ul class="navbar-nav nav-pills ms-auto m-0" id="main-navbar">
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Hero -->
+    <!-- <section class="section__club">
+        <img class="hero__img" src="./img/playlister-club/hero__img.png" alt="img">
+        <div class="container__club">
+            <div class="club">
+                <div class="club__item">
+                    <h1 class="section__title club__title">Playlisting done right!</h1>
+                    <p class="club__text">The world's leading music discovery platform and home to the largest community
+                        of independent playlisters digging for new music. </p>
+                    <div class="club__buttons">
+                        <div class="buttons__cover"></div>
+                        <button class="club__button">For Artists & Labels</button>
+                        <button class="club__button">For Playlist Curators</button>
+                    </div>
+                    <div class="club__copy">
+                        If you are ready, so are we! <a href="#">Sign up</a> to Playlister Club today
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+
+    <main>
+        <!-- Section Hero -->
+        <div class="ui-plc-section hero songblog-hero-header wf-section mt-80">
+            <div class="red-lite"></div>
+            <div class="fixed-gradient"></div>
+            <div class="device-holder">
+                <div class="price-tag"></div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1e9"
+                    style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                    class="slider-content _1">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ea" style="opacity:0" class="metadata-holder">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1eb" class="cover-holder-hero"><img
+                                src="img/playlister-club/playlisting-cover.png" loading="lazy" width="127"
+                                srcset="img/playlister-club/playlisting-cover-p-500.png 500w, img/playlister-club/playlisting-cover.png 766w"
+                                sizes="127px" alt="" class="slide-cover"></div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ed" class="cover-song">No Pressure</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ef" class="cover-artist">Michael Adams</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f1" class="cover-date">September 2022</div>
+                    </div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f3" class="fake-button-holder">
+                        <div>Add to Playlist</div>
+                    </div>
+                    <div class="slide-title">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f7" class="title">Michael&#x27;s perspective
+                            on
+                            &quot;No Pressure&quot;</div>
+                    </div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1f9"
+                    style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                    class="slider-content _2">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1fa" style="opacity:0" class="metadata-holder">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1fb" class="cover-holder-hero"><img
+                                src="img/playlister-club/songfolder-cover.png" loading="lazy" width="127"
+                                srcset="img/playlister-club/songfolder-cover-p-500.png 500w, img/playlister-club/songfolder-cover.png 744w"
+                                sizes="100vw" alt="" class="slide-cover"></div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1fd" class="cover-song">Where were you</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb1ff" class="cover-artist">Monty Clark</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb201" class="cover-date">January 2022</div>
+                    </div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb203" class="fake-button-holder">
+                        <div>Add to Playlist</div>
+                    </div>
+                    <div class="slide-title">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb207" class="title">Monty&#x27;s perspective on
+                            &quot;Where were you&quot;</div>
+                    </div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb209"
+                    style="-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0;display:none"
+                    class="slider-content _3">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20a" style="opacity:0" class="metadata-holder">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20b" class="cover-holder-hero"><img
+                                src="img/playlister-club/songblog-cover.png" loading="lazy" width="127"
+                                srcset="img/playlister-club/songblog-cover-p-500.png 500w, img/playlister-club/songblog-cover.png 766w"
+                                sizes="100vw" alt="" class="slide-cover"></div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20d" class="cover-song">Thanks, I Hate it</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb20f" class="cover-artist">Michelle White</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb211" class="cover-date">June 2020</div>
+                    </div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb213" class="fake-button-holder">
+                        <div>Add to Playlist</div>
+                    </div>
+                    <div class="slide-title">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb217" class="title">Michell&#x27;s perspective
+                            on
+                            &quot;No Pressure&quot;</div>
+                    </div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb219"
+                    style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                    class="slider-content _4">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21a" style="opacity:0" class="metadata-holder">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21b" class="cover-holder-hero"><img
+                                src="img/playlister-club/songpage-cover.png" loading="lazy" width="127"
+                                srcset="img/playlister-club/songpage-cover-p-500.png 500w, img/playlister-club/songpage-cover.png 766w"
+                                sizes="100vw" alt="" class="slide-cover"></div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21d" class="cover-song">So You Say</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb21f" class="cover-artist">Christine Brown</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb221" class="cover-date">August 2019</div>
+                    </div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb223" class="fake-button-holder">
+                        <div>Add to Playlist</div>
+                    </div>
+                    <div class="slide-title">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb227" class="title">Chri&#x27;s perspective on
+                            &quot;So You Say&quot;</div>
+                    </div>
+                </div>
+                <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb229"
+                    style="display:none;-webkit-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(0.9, 0.9, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
+                    class="slider-content _5">
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22a" style="opacity:0" class="metadata-holder">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22b" class="cover-holder-hero"><img
+                                src="img/playlister-club/cover-5.png" loading="lazy" width="127"
+                                srcset="img/playlister-club/cover-5-p-500.png 500w, img/playlister-club/cover-5.png 769w"
+                                sizes="100vw" alt="" class="slide-cover"></div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22d" class="cover-song">Light At The End</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb22f" class="cover-artist">Evan Young</div>
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb231" class="cover-date">September 2022</div>
+                    </div>
+                    <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb233" class="fake-button-holder">
+                        <div>Add to Playlist</div>
+                    </div>
+                    <div class="slide-title">
+                        <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb237" class="title">Evan&#x27;s perspective on
+                            &quot;Light At The End&quot;</div>
+                    </div>
+                </div>
+                <div class="slider-holder"></div>
+            </div>
+            <div data-w-id="c8a81fb6-ba33-68ef-7ec7-17f7530bb23a"
+                style="-webkit-transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)"
+                class="ui-animated-bg-1"></div>
+            <div class="ui-plc-container content-2">
+                <div class="content">
+                    <div class="hero-text-container hero-title">
+                        <div class="hero-txt hero-title">Playlisting done right!</div>
+                    </div>
+                    <div class="hero-text-container">
+                        <div class="hero-txt hero-text">The world's leading music discovery platform and home to the
+                            largest community of independent playlisters digging for new music.
+                        </div>
+                        <div class="club__buttons">
+                            <div class="buttons__cover"></div>
+                            <button class="club__button">For Artists & Labels</button>
+                            <button class="club__button">For Playlist Curators</button>
+                        </div>
+                        <div class="club__copy">
+                            If you are ready, so are we! <a href="#">Sign up</a> to Playlister Club today
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Section How -->
+        <section class="section__how">
+            <div class="container__club">
+                <div class="how">
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-1.svg" alt="img"></div>
+                        <div class="how__title">Work smarter <br>
+                            not harder!</div>
+                        <div class="how__text">Start your membership and simply activate your tracks; no uploads, no
+                            metadata, no time wasted! Your releases will be included in our Discover ecosystem, where
+                            leading curators go to find new music for their playlists. It's that simple!</div>
+                    </div>
+
+
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-2.svg" alt="img"></div>
+                        <div class="how__title">Be really <br>
+                            discovered!</div>
+                        <div class="how__text">Many playlisters mindlessly read through endless submission inboxes.
+                            Instead, our playlisters carefully and manually select songs that truly match their
+                            playlists and music tastes. Never have your music lost in an inbox again!</div>
+                    </div>
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-3.svg" alt="img"></div>
+                        <div class="how__title">Get more than <br>
+                            just exposure!</div>
+                        <div class="how__text">Your music is displayed on a music discovery platform and matched to
+                            playlisters specific curation and listening tastes. They can even listen, review and place
+                            your songs on their playlists directly from our platform.</div>
+                    </div>
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-4.png" alt="img"></div>
+                        <div class="how__title">Gain exclusive and real playlister data!</div>
+                        <div class="how__text">It's hard to figure out the best way to approach playlisters - they are
+                            notoriously obscure. We are here to bring security, transparency & data around this powerful
+                            group of tastemakers. We actively monitor and vet playlisters interacting in
+                            our platform.</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-5.svg" alt="img"></div>
+                        <div class="how__title">Where will your song
+                            find success?</div>
+                        <div class="how__text">Playlists are global; they can give you access to new listeners in places
+                            you would have never thought of. Let us take the guess work out of where your potential fans
+                            and connect you with thousands of playlisters around the globe today!</div>
+                    </div>
+
+                    <div class="how__item">
+                        <div class="how__img"><img src="./img/playlister-club/how-6.svg" alt="img"></div>
+                        <div class="how__title">Join a Passionate
+                            Music Community!</div>
+                        <div class="how__text">Include your music in the only lively online community tailored towards
+                            playlisters. We are home to more than 5000 of the leading independent playlisters around the
+                            world who trust us with more playlist placements than any other playlisting platform!</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Statistic -->
+        <section class="section__statistic ui-plc-section hero songblog-hero wf-section">
+            <div class="container__club">
+                <div class="statistic">
+                    <div class="statistic__item left__item">
+                        <h2 class="section__title">Our playlist numbers...</h2>
+                        <div class="statistic__text">Some <span>5674</span> playlisters with a combined follower count
+                            of <span>89,166,243</span>
+                            and more than <span>90,581</span> playlists have successfully placed <span>751,246</span>
+                            tracks </div>
+                    </div>
+                    <div class="statistic__item right__item">
+                        <div class="statistic__subtext">with membership as low as</div>
+                        <div class="statistic__price">
+                            <div class="statistic__price-item">
+                                <small>$</small>
+                                <span>40/</span>
+                            </div>
+                            <div class="statistic__price-item">month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Reviews -->
+        <section class="section__reviews">
+            <div class="container__club">
+                <div class="reviews">
+                    <h2 class="section__title title__center reviews__title">... and happy people at-a-glance!</h2>
+
+                    <div class="reviews__slider">
+                        <!-- Slider main container -->
+                        <div class="swiper swiper__reviews">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide reviews__slide">
+                                    <div class="review__quote">
+                                        <svg width="59" height="43" viewBox="0 0 59 43" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M34.2085 42.5302H53.5563V22.1868H45.9917C45.4098 14.6686 49.6285 10.0987 58.5023 8.47714L56.6112 0.811523C41.9185 1.99085 34.2085 8.91939 34.2085 25.2825V42.5302ZM0.458984 42.5302H19.8068V22.1868H12.3877C11.6603 14.6686 15.879 10.0987 24.7528 8.47714L22.8617 0.811523C8.169 1.99085 0.458984 8.91939 0.458984 25.2825V42.5302Z"
+                                                fill="#FF1241" />
+                                        </svg>
+
+                                    </div>
+                                    <div class="review__text">Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+                                        ever since the 1500s, when an unknown printer took</div>
+                                    <div class="review__info">
+                                        <div class="review__info-item">
+                                            <div class="review__avatar">
+                                                <img src="./img/playlister-club/review-1.jpg" alt="img">
+                                            </div>
+                                        </div>
+                                        <div class="review__info-item">
+                                            <div class="review__name">John Doe</div>
+                                            <div class="review__position">Client</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Satisfied -->
+        <div class="satisfied">
+            <h2 class="section__title title__center">Satisfied?</h2>
+            <a href="#" class="club__btn satisfied__btn">Sign Up <span>to Playlister Club</span> today!</a>
+        </div>
+
+        <!-- Section Measure -->
+        <section class="section__measure">
+            <div class="container__club">
+                <div class="measure">
+                    <div class="measure__item left__item">
+                        <h2 class="section__title measure__title">hmmm, okay how about if we just check <span>how you
+                                measure?</span></h2>
+                        <p class="measure__text">Our Playlistability Index is the most advanced metric to measure your
+                            song’s potential performance from a playlisting perspective. Using thousands of data points
+                            we collect daily, we’ve devised an engine to check your playlistability -- how playlistable
+                            your song is -- against what our playlisters are currently adding, and what other emerging
+                            artists like yourself scored.</p>
+                        <img class="measure__img-mob" src="./img/playlister-club/measure__img.png" alt="img">
+                        <a href="#" class="club__btn measure__btn">Get your playlistability</a>
+                    </div>
+                    <div class="measure__item right__item">
+                        <img src="./img/playlister-club/measure__img.png" alt="img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Slider 2 -->
+        <div class="ui-plc-section white wf-section">
+            <div class="ui-plc-container faqs cta">
+
+                <div class="content content-container-text">Not yet convinced?<br>Explore our music promotion <span
+                        class="hilite">ecosystem</span>‍</div>
+            </div>
+        </div>
+        <div class="ui-plc-section hero songtools-slider wf-section">
+            <div class="ui-plc-container content-2 slider">
+                <div class="songtools-logo-positioner"></div>
+                <div data-delay="6000" data-animation="cross" class="slider-3 w-slider" data-autoplay="true"
+                    data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0"
+                    data-nav-spacing="2" data-duration="500" data-infinite="true">
+                    <div class="w-slider-mask">
+                        <div class="slide w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-songfly.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">Music Digital Advertising made easy... <span
+                                        class="hilite">and powerful!</span></div>
+                                <div class="hero-txt hero-text">With just a few clicks, SongFly delivers breathtaking
+                                    ads on multiple channels. So, stop spending time and money trying to figure out how
+                                    digital advertising works and try us today!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide songblog w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/songblog-logo.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">Publish an SEO-optimized blog and engage <span
+                                        class="text-span">with your fans</span></div>
+                                <div class="hero-txt hero-text">Break your latest release, feature your journey as an
+                                    artist and keep the conversation going with a fully featured Q&amp;A blog that stays
+                                    indexed, forever!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide songpage w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-songpage.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">A responsive landing page to drive conversionsand
+                                    produce more streams... <span class="hilite">and fans!</span></div>
+                                <div class="hero-txt hero-text">Make it easy for fans to listen to your music on the
+                                    streaming platform of their choice or discover you on social media.</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide songfolder w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-songfolder.svg" loading="lazy" height="60" alt=""
+                                    class="service-logo">
+                                <div class="hero-txt hero-title">Smart Cloud Storage for the music marketer</div>
+                                <div class="hero-txt hero-text">We don&#x27;t just store your song content, we transform
+                                    it into something engaging and unforgettable!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                        <div class="slide playlistpulse w-slide">
+                            <div class="hero-text-container hero-title slider"><img
+                                    src="./img/playlister-club/logo-playlist-pulse.svg" loading="lazy" height="60"
+                                    alt="" class="service-logo">
+                                <div class="hero-txt hero-title">Lorem ipsum playlistpulse charts <span
+                                        class="text-span">lorem ipsum</span></div>
+                                <div class="hero-txt hero-text">Break your latest release, feature your journey as an
+                                    artist and keep the conversation going with a fully featured Q&amp;A blog that stays
+                                    indexed, forever!</div>
+                                <div class="air-60"></div>
+                                <a href="https://playlister.club" target="_blank"
+                                    class="button hero-button round w-button">Learn More</a>
+                            </div>
+                            <div class="gradiente"></div>
+                        </div>
+                    </div>
+                    <div class="hideme w-slider-arrow-left">
+                        <div class="w-icon-slider-left"></div>
+                    </div>
+                    <div class="hideme w-slider-arrow-right">
+                        <div class="w-icon-slider-right"></div>
+                    </div>
+                    <div class="st-slide-nav w-slider-nav"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Section FAQ -->
+        <div class="ui-plc-section white wf-section">
+            <div class="ui-plc-container faqs">
+                <div class="faqs-container">
+                    <div class="faqs-title">FAQ</div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="0aab139c-f04e-c7ae-92dc-7aab2867aaa2"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">How much storage do I get? </div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="a8249597-f141-e6fe-383d-eed9f96c149a"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">What about security? Are my assets safe?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="c6a89faa-4d60-c056-1494-62d33b75bd03"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">How much storage to I get?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">SongFolder is included free in your SongTools data membership,
+                                or when you run a Songfly campaign. You can also take advantage of our auto-creative
+                                feature, which allows you to leverage millions of stock video assets in your ad
+                                campaigns for additional $5 per auto-creative.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="fb08f65d-2ff4-5844-835b-ab6e84ba302d"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">What kind of ads does it create?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">Our AI will create various different ad creatives with the
+                                assets you upload and use multivariate testing in order to find a winning combination
+                                for your SongFly campaign. You can view our creative guidelines webpage to get examples
+                                of the ads that will be created.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item w-dropdown">
+                        <div data-w-id="ead46db3-9f00-f5d0-0621-0046eecdeef5"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">Does my content get deleted if I cancel my membership?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav style="display:none;height:0px" class="dropdown-list w-dropdown-list">
+                            <div class="faq-item-content">Your content will be held for 1 year after you cancel your
+                                membership, in case you decide to come back. After that point if you do not re-activate
+                                your membership, they will be deleted forever.</div>
+                        </nav>
+                    </div>
+                    <div data-hover="false" data-delay="0" class="accordion-itemx faqs-item last w-dropdown">
+                        <div data-w-id="5d3a6809-40f2-4797-601c-c04ed73f5edf"
+                            class="accordion-togglex faq-item-button w-dropdown-toggle">
+                            <div class="faq-item-title">Why is it better than Google Drive, Dropbox, and others?</div>
+                            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(180deg) skew(0, 0);opacity:0.5"
+                                class="accordion-icon"></div>
+                        </div>
+                        <nav class="dropdown-list last w-dropdown-list">
+                            <div class="faq-item-content">We believe cloud storage is not “one-size fits all.” Music
+                                creators have different needs, and we’ve created a home for your content that’s
+                                streamlined around those needs. Our dashboard has a place for your song’s audio files,
+                                press photos, promo videos, and keeps them safe, so you can easily access them from
+                                anywhere in the future. Plus; we are the only storage solution that integrates directly
+                                with your marketing platform!</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="ui-plc-footer">
+            <div class="ui-plc-footer-container">
+                <div class="nav-row">
+                    <div class="plc-logo"></div>
+                    <div class="nav-items">
+                        <a href="#" class="footer-link">Company</a>
+                        <a href="#" class="footer-link">Products</a>
+                        <a href="#" class="footer-link">Help Center</a>
+                        <a href="#" class="footer-link">Contact Us</a>
+                    </div>
+                </div>
+                <div class="sub-nav-row">
+                    <div class="legal-section">
+                        <div class="disclaimer">
+                            <div class="disclaimer-txt">© 2022 Playlister.Club. All rights reserved.</div>
+                        </div>
+                        <div class="legal-nav">
+                            <a href="#" class="legal-link">Terms of Use</a>
+                            <a href="#" class="legal-link">Privacy Policy</a>
+                        </div>
+                    </div>
+                    <div class="social-section">
+                        <a href="#" class="social-icon sp w-inline-block"></a>
+                        <a href="#" class="social-icon ig w-inline-block"></a>
+                        <a href="#" class="social-icon tt w-inline-block"></a>
+                        <a href="#" class="social-icon fb w-inline-block"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6335ed502413626f48003b57"
+        type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+    <script src="./js/plc-songtools.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="./js/main.js"></script>
+
+    <script>
+        var submenus = []
+        var parents = []
+        function existsParent(id) {
+            position = -1
+            for (var i = 0; i < parents.length; i++) {
+                if (id == parents[i].Id) {
+                    position = i
+                }
+            }
+            return (position > -1)
+        }
+        function searchParent(id, arr) {
+            for (var i = 0; i < arr.length; i++) {
+                if (id == arr[i].Id) {
+                    position = i
+                }
+            }
+            return arr[position]
+        }
+        $.get('https://api.playlister.club/data/pc/playlists/getmenuitems', function (data) {
+            $.each(data, function (key, value) {
+                if (value.ParentId == 0) {
+                    $("#navbars ul#main-navbar").append('<li class="nav-item mx-md-2" id="nav-item-' +
+                        value.Id + '"><a href="' + value.URL + '" >' + value.Name +
+                        '</a></li>')
+                } else {
+                    submenus.push(value)
+                    if (!existsParent(value.ParentId)) {
+                        parents.push(searchParent(value.ParentId, data))
+                    }
+                }
+            })
+            for (var i = 0; i < parents.length; i++) {
+                $('#nav-item-' + parents[i].Id).addClass('dropdown')
+                //$('#nav-item-' + parents[i].Id).append('<div class="position-relative"><a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink-' + parents[i].Id + '" role="button" data-bs-toggle="dropdown" aria-expanded="false">' + parents[i].Name + '</a> <ul class="dropdown-menu dropdown-menu-dark" id="sub-menu-features-' + parents[i].Id + '" aria-labelledby="navbarDarkDropdownMenuLink-' + parents[i].Id + '"></ul></div>');
+                $('#nav-item-' + parents[i].Id).html(
+                    "<a class='dropdown-toggle' href='#'' id='navbarDarkDropdownMenuLink-" +
+                    parents[i].Id + "' role='button' data-bs-toggle='dropdown' aria-expanded='false'>" +
+                    parents[i].Name +
+                    "</a> <ul class='dropdown-menu dropdown-menu-dark' id='sub-menu-features-" + parents[i]
+                        .Id + "' aria-labelledby='navbarDarkDropdownMenuLink-" + parents[i].Id +
+                    "'></ul>")
+            }
+            for (var i = 0; i < submenus.length; i++) {
+                $("#sub-menu-features-" + submenus[i].ParentId).append(
+                    "<li role='presentation' class='' id='nav-item-" + submenus[i].Id + "'><a href='" +
+                    submenus[i].URL + "' class='dropdown-item'>" + submenus[i].Name + "</a></li>")
+            }
+            $.each(data, function (key, value) {
+                if (value.ParentId == 6) {
+                    var o = new Option(value.Name, value.URL)
+                    $("#sub-menu-features").append('<li role="presentation" class="" id="nav-item-' +
+                        value.Id + '"><a href="' + value.URL + ' " class="dropdown-item">' + value
+                            .Name + '</a></li>')
+                }
+            })
+        });
+    </script>
+</body>
+
+</html>
